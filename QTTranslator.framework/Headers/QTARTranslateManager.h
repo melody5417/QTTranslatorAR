@@ -21,9 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * 配置AR翻译引擎
- * @param source 翻译的源语言类型：zh, en等， 具体种类见 QTLanguageDefine
- * @param target 翻译的目标语言类型：zh, en等， 具体种类见 QTLanguageDefine
- * AR翻译仅支持中英，中日，中韩，中西，中法，中德，中越，中马，中意大利，中葡萄牙
+ * @param source 翻译的源语言类型。具体种类见 QTLangType，通过 langAbbrFromType(QTLangType) 方法构造
+ * @param target 翻译的目标语言类型。具体种类见 QTLangType，通过 langAbbrFromType(QTLangType) 方法构造
+ * AR翻译支持中文到 （英、日、韩、西班牙、法、德、越、马来、意大利、葡萄牙）的互译
  */
 - (void)configureWithSource:(NSString *)source target:(NSString *)target;
 
