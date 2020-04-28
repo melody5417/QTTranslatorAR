@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,11 +20,8 @@
 		4F873F8C21B7E0EE00838149 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F873F8B21B7E0EE00838149 /* Assets.xcassets */; };
 		4F873F8F21B7E0EE00838149 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F873F8D21B7E0EE00838149 /* LaunchScreen.storyboard */; };
 		4F873F9221B7E0EE00838149 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F873F9121B7E0EE00838149 /* main.m */; };
-		A787769B2455A3AB0005B2C4 /* QTTranslator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78776992455A3A50005B2C4 /* QTTranslator.framework */; };
-		A787769C2455A3AB0005B2C4 /* QTTranslator.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78776992455A3A50005B2C4 /* QTTranslator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A787769D2455A3AC0005B2C4 /* QTTranslatorAR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78776972455A39D0005B2C4 /* QTTranslatorAR.framework */; };
-		A787769E2455A3AC0005B2C4 /* QTTranslatorAR.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A78776972455A39D0005B2C4 /* QTTranslatorAR.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7A7BBC72453064C004AE8C7 /* ARViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A7BBC62453064C004AE8C7 /* ARViewController.m */; };
+		DE37B1CDBEE11435E718A595 /* Pods_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765E93DDE8E984D031843F62 /* Pods_Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,8 +31,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A787769E2455A3AC0005B2C4 /* QTTranslatorAR.framework in CopyFiles */,
-				A787769C2455A3AB0005B2C4 /* QTTranslator.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,10 +59,11 @@
 		4F873F8E21B7E0EE00838149 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F873F9021B7E0EE00838149 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F873F9121B7E0EE00838149 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A78776972455A39D0005B2C4 /* QTTranslatorAR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QTTranslatorAR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A78776992455A3A50005B2C4 /* QTTranslator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QTTranslator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		765E93DDE8E984D031843F62 /* Pods_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8185FF8C2724876207EA8B23 /* Pods-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.debug.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		A7A7BBC52453064C004AE8C7 /* ARViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
 		A7A7BBC62453064C004AE8C7 /* ARViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewController.m; sourceTree = "<group>"; };
+		AA80DB62F20ACCCE4A15E524 /* Pods-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo.release.xcconfig"; path = "Target Support Files/Pods-Demo/Pods-Demo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A787769D2455A3AC0005B2C4 /* QTTranslatorAR.framework in Frameworks */,
-				A787769B2455A3AB0005B2C4 /* QTTranslator.framework in Frameworks */,
+				DE37B1CDBEE11435E718A595 /* Pods_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +113,7 @@
 				4F873F8121B7E0EE00838149 /* Demo */,
 				4F873F8021B7E0EE00838149 /* Products */,
 				A78776962455A39D0005B2C4 /* Frameworks */,
+				CE93F9B759BFB40BD423D474 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,10 +145,18 @@
 		A78776962455A39D0005B2C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A78776972455A39D0005B2C4 /* QTTranslatorAR.framework */,
-				A78776992455A3A50005B2C4 /* QTTranslator.framework */,
+				765E93DDE8E984D031843F62 /* Pods_Demo.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE93F9B759BFB40BD423D474 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8185FF8C2724876207EA8B23 /* Pods-Demo.debug.xcconfig */,
+				AA80DB62F20ACCCE4A15E524 /* Pods-Demo.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,10 +166,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F873F9521B7E0EE00838149 /* Build configuration list for PBXNativeTarget "Demo" */;
 			buildPhases = (
+				73A13AE80155EE2CC8E5E569 /* [CP] Check Pods Manifest.lock */,
 				4F873F7B21B7E0EE00838149 /* Sources */,
 				4F873F7C21B7E0EE00838149 /* Frameworks */,
 				4F873F7D21B7E0EE00838149 /* Resources */,
 				4F2D1B6521BA5314005772E2 /* CopyFiles */,
+				EE4CD01FA56466814B357882 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -222,6 +228,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		73A13AE80155EE2CC8E5E569 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Demo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EE4CD01FA56466814B357882 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo/Pods-Demo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4F873F7B21B7E0EE00838149 /* Sources */ = {
@@ -368,6 +416,7 @@
 		};
 		4F873F9621B7E0EE00838149 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8185FF8C2724876207EA8B23 /* Pods-Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -376,10 +425,7 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Demo/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.translatedemo;
 				PRODUCT_NAME = "Translate_$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = com.tencent.translatedemo_Development_SignProvision;
@@ -389,6 +435,7 @@
 		};
 		4F873F9721B7E0EE00838149 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA80DB62F20ACCCE4A15E524 /* Pods-Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -397,10 +444,7 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Demo/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencent.translatedemo;
 				PRODUCT_NAME = "Translate_$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = com.tencent.translatedemo_Production_SignProvision;
