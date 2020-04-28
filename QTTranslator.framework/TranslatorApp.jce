@@ -1,0 +1,1020 @@
+module QB
+{
+    //语音格式
+    enum E_AUDIO_FORMAT
+    {
+        E_AUDIO_FORMAT_PCM_16Bit_MONO_16000Hz   = 0x92,         //ComposePCMFormat(1, 2, AUDIO_FORMAT_16000Hz);
+        E_AUDIO_FORMAT_SPEEX_WB_7               = 0x1000792,    //ComposeSpeexWBFormat(7);
+        E_AUDIO_FORMAT_AMR                      = 0x2000000,    //ComposeAMRFormat();
+        E_AUDIO_FORMAT_MP3                      = 0x5000000,    //ComposeMp3Format();
+        E_AUDIO_FORMAT_SPEEX_WB_7_OGG           = 0x41000790,   //ComposeSpeexWBFormatInOgg(7);
+        E_AUDIO_FORMAT_AAC                      = 0x6000000,    //ComposeAccFormat();
+        E_AUDIO_FORMAT_SILK_24000Hz             = 0x400001c,    //ComposeSILKFormat(AUDIO_FORMAT_24000Hz)
+        E_AUDIO_FORMAT_OTHER                    = 0             //Other speech format, will be auto recognized by ffmpeg
+    };
+
+    //网络类型
+    enum E_MOBILE_NETWORK_TYPE
+    {
+        E_MOBILE_NETWORK_UNKNOWN    = 0,
+        E_MOBILE_NETWORK_2G         = 1,
+        E_MOBILE_NETWORK_3G         = 2,
+        E_MOBILE_NETWORK_4G         = 3,
+        E_MOBILE_NETWORK_WIFI       = 4,
+        E_MOBILE_NETWORK_WWAN       = 5   //手机无法判断2g3g4g，代表手机网络
+    };
+
+    enum E_APP_ERR_CODE
+    {
+        NO_ERROR                    = 0,
+        UNKNOWN                     = -1, //inner error
+        UNSUPPORTED                 = -2, //不支持的操作
+        PARAMS_MISSING              = -3, //参数缺失
+        PARAMS_ERROR                = -4, //参数格式错误
+        NO_PERMISSION               = -5,
+        FREQUENCY_EXCEEDED          = -6,  //频率超出上限
+        RESOURCE_EXCEEDED           = -7, //资源超出配额
+        DATA_LENGTH_EXCEEDED        = -9, //请求string超过长度限制
+
+        UNRECOGNIZED                = -1001, // -1001 ~ -1999 用于语言检测独占错误码
+
+        UNSUPPORTED_SOURCE_LANGUAGE = -2001, // -2001 ~ -2999 文本翻译独占错误码
+        UNSUPPORTED_TARGET_LANGUAGE = -2002,
+        UNSUPPORTED_LANGUAGE        = -2003,
+
+        TEXT_TOO_LONG               = 1,        // 文本过长
+    };
+
+    // 用户描述信息
+    struct AppUserDesc
+    {
+        0 optional string       guid;
+        1 optional string       longitude;              //经度
+        2 optional string       latitude;               //纬度
+        3 optional int          netType;                //E_MOBILE_NETWORK_TYPE，网络类型，4G,2G,wifi
+        4 optional string       platform;               //PC_Website/PC_Plugin/QB_PC_Menu/QB_PC_infobar/WeChat_H5/H5/WeChat/iOS_APP/Android_APP/WeChat_Program/QB_Android/QB_iOS/Watch_Android/QB_iPad
+        5 optional string       clientVersion;          // 客户端版本
+        6 optional string       ip;
+        7 optional string       moreInfo;
+        8 optional string       deviceModel;            //设备机型
+        9 optional string       tid;                    //token id
+    };
+
+    ///////////////////////////////// 自描述类型 /////////////////////////////////
+    // 自描述类型,typeName为目标类型名称,data为目标类型序列化后的数据
+    struct AbstractType
+    {
+        0 optional string       typeName;
+        1 optional vector<byte> data;
+    };
+
+    ////////////////////////////////// 字典 ////////////////////////////////////
+    struct AppRect
+    {
+        0 optional int  x1;
+        1 optional int  y1;
+        2 optional int  x2;
+        3 optional int  y2;
+    };
+
+    // OPD图解详情单条项目,如: a dollar coin 一美分硬币
+    struct AppPicDictItem
+    {
+        0 optional string                       itemId;             // md5(categoryId + ....)
+        1 optional string                       title;
+        2 optional string                       subtitle;
+        3 optional string                       section;
+        4 optional string                       itemNumber;         // 在大图中的序号,可以是1,2,3,也可以是A,B,C
+        5 optional AppRect                      itemImageDot;       // itemNumber在大图中的位置
+        6 optional AppRect                      itemImageCrop;      // item所在的图在大图中的位置
+        7 optional int                          itemOrder;          // 全局order
+        8 optional string                       imageId;            // image id, 用于GetPicDictImage
+    };
+
+    // 共享大图
+    struct AppPicDictShareItem
+    {
+        0 optional string                       imageId;       // image id, 用于GetPicDictImage
+        1 optional vector<AppPicDictItem>       items;
+    };
+
+    // OPD分类图解Section,其包含若干个AppPicDictItem或者AppPicDictShareItem
+    struct AppPicDictSection
+    {
+        0 optional string                       title;      // title of section
+        1 optional vector<AbstractType>         items;      // AbstractType from AppPicDictItem or AppPicDictShareItem
+    };
+
+    // OPD分类图解章节中的每一分类:如Greeting and Meeting
+    struct AppPicDictCategory
+    {
+        0 optional string                       categoryId;     // id
+        1 optional string                       sourceTitle;    // 分类的描述文字(源语言)
+        2 optional string                       targetTitle;    // 分类的描述文字(目标语言)
+        3 optional string                       source;         // 源语言
+        4 optional string                       target;         // 目标语言
+        5 optional string                       dictProvider;   // 字典来源: opd
+        6 optional vector<byte>                 logoImage;      // 图解category logo
+        7 optional vector<AppPicDictSection>    sections;
+    };
+
+    // OPD分类图解章节,如Everyday Languages
+    struct AppPicDictChapter
+    {
+        0 optional string                       chapterId;
+        1 optional string                       sourceTitle;    // 分类的描述文字(源语言)
+        2 optional string                       targetTitle;    // 分类的描述文字(目标语言)
+        3 optional string                       source;         // 源语言
+        4 optional string                       target;         // 目标语言
+        5 optional vector<byte>                 logoImage;      // 图解logo
+        6 optional string                       dictProvider;   // 字典来源: opd
+        7 optional vector<AppPicDictCategory>   categories;
+    };
+
+    // OPD分类图解章节摘要
+    struct AppPicDictChapterAbstract
+    {
+        0 optional string                       chapterId;
+        1 optional string                       sourceTitle;    // 分类的描述文字(源语言)
+        2 optional string                       targetTitle;    // 分类的描述文字(目标语言)
+        3 optional string                       source;         // 源语言
+        4 optional string                       target;         // 目标语言
+        5 optional vector<byte>                 logoImage;      // 图解logo
+        6 optional string                       dictProvider;   // 字典来源: opd
+    };
+
+    // OCD词条子项目, 如: n. 上诉;呼吁
+    struct AppDictGrammarBlock
+    {
+        0 optional string                       targetText;     // 目标译文
+        1 optional string                       characteristic; // 词性 adj. / n. / vi. /vt.
+    };
+
+    // OCD词条, 如:美元: <Us dollar adj...>; <greenback adj ...>
+    struct AppDictEntry
+    {
+        0 optional string                       sourceText;     // 原文
+        1 optional string                       pronunciation;  // 发音
+        2 optional string                       source;         // 源语言
+        3 optional string                       target;         // 目标语言
+        4 optional vector<AppDictGrammarBlock>  grambs;         // 子条目
+        5 optional string                       dictProvider;   // 字典来源: ocd
+        6 optional string                       detail;         // 详细注释html
+        7 optional string                       phAmE;          // 美国发音
+        8 optional string                       phBrE;          // 英国发音
+    };
+
+    //////////////////////////////////// 文本翻译 ///////////////////////////////////////
+    // 文本翻译请求
+    /**
+      * strategy翻译策略字段详解:
+      * 1. 空为纯文本翻译
+      * 2. textIfNoDict 为优先词典翻译,无词条则文本翻译(即会有ocd+opd),注意对于无OCD的词条不会检测OPD,直接走文本翻译
+      * 3. textIfNoOCD 为优先OCD词典,无词条则文本翻译(只有ocd,无OPD)
+      * 4. textWithGroupIfNoDict 是在textIfNoDict的基础上,对于无词典的情况会对翻译的原文译文中的英文添加词组分级信息
+      * 5. textWithGroupIfNoOCD 为是在textIfNoOCD的基础上,对于无词典的情况会对翻译的原文译文中的英文添加词组分级信息
+      **/
+    struct AppTextTranslateReq
+    {
+        0 optional string       sessionUuid;
+        1 optional string       sourceText;
+        2 optional string       source = "auto"; // zh, en, jp, kr, auto
+        3 optional string       target = "auto"; // zh, en, jp, kr, auto
+        4 optional string       engine; // xiaoniu, google, bing, baidu, qqnmt, xiaoniunmt
+        5 optional string       candidateLangs;     //zh|en, zh|jp, zh|kr, zh|en|jp|kr
+        6 optional string       strategy;           // 翻译策略, 空 | textIfNoDict | textIfNoOCD | textWithGroupIfNoDict | textWithGroupIfNoOCD
+        7 optional int          crossLang = 0;      // 是否跨(中文)语言翻译, 0: 否, 1: 是
+        8 optional string       inputType;          // 空为默认的文本翻译; operationPoster海报翻译; clipboard粘贴板跨软件翻译; spotlight iOS专用
+    };
+
+    // 用于描述翻译返回结果的数据类型,可以是纯文本翻译,可以是文本+词典
+    enum E_TEXT_TRANSLATE_RSP_TYPE{
+        E_TEXT                  = 1,    // 文本翻译
+        E_EXT_DICT              = 2,    // 字典词条
+        E_EXT_PIC_DICT          = 4,    // 字典词条分类图解
+        E_EXT_DICT_GROUP_INFO   = 8,    // 字典分级信息
+    };
+
+    struct AppExtDictEntries
+    {
+        0 optional vector<AppDictEntry>         dictEntries; //词条信息,如果有词条信息,则不会做翻译
+        1 optional string                       detailId;    //用于请求详情的id,如果是单个英文词条则为该词条的线上注释,如果是中文词条,则是多个英文词条组合的线上注释
+    };
+
+    struct AppExtPicDictCategories
+    {
+        0 optional string                       picDictChapterId;   // 分类图解,判断chapterId是否有效来判断是否包含有效的图解词典分类, 空为无效
+        1 optional vector<string>               picDictCategoryIds; // 该词条涉及到的分类id [Deprecated]
+        2 optional AppPicDictCategory           bestMatchCategory;
+        3 optional string                       bestMatchItemId;    // 最佳匹配的AppPicDictItem
+    };
+
+
+    struct AppExtDictGroupInfo
+    {
+        0 optional string                       groupMapJson;   // {'word' : {'detailId' : "xxxx", 'group' : [{'level' : "40", 'levelName' : 'cet4' }]}}
+    };
+
+    // 文本翻译结果
+    struct AppTextTranslateRsp
+    {
+        0 optional string       sessionUuid;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+        3 optional string       sourceText; //源文本
+        4 optional string       targetText; //目标文本
+        5 optional string       source;
+        6 optional string       target;
+        7 optional string       engine;
+        9 optional int          typeBits;                   // E_TEXT_TRANSLATE_RSP_TYPE 位组合,用于识别结果里面包含哪些类型的数据,有文本翻译结果,有字典词条,有图解
+        10 optional vector<AbstractType>        extResults; // 扩展返回结果,可以是 AppExtDictEntries, AppExtPicDictCategories, AppExtDictGroupInfo在相应的typeBits里面有标示
+        11 optional int         seq = 0;    // 语音识别对应的seq会保存到这
+    };
+
+    // 多句翻译请求
+    struct AppBatchTextTranslateReq
+    {
+        0 optional string           sessionUuid;
+        1 optional vector<string>   sourceTexts;
+        2 optional string           source; // zh, en, jp, kr, auto
+        3 optional string           target; // zh, en, jp, kr
+        4 optional string           engine; // xiaoniu, google, bing, baidu, qqnmt, xiaoniunmt
+        5 optional string           strategy;           // 翻译策略: 空为纯文本翻译; textIfNoDict为优先词典翻译,无词条则文本翻译; textIfNoOCD为优先OCD词典,无词条则文本翻译(无OPD)
+    };
+
+    // 多句翻译返回结果
+    struct AppBatchTextTranslateRsp
+    {
+        0 optional string           sessionUuid;
+        1 optional int              errCode; //错误码 E_APP_ERR_CODE
+        2 optional string           errMsg; //错误信息
+        3 optional vector<string>   sourceTexts; //源文本
+        4 optional vector<string>   targetTexts; //目标文本
+        5 optional string           source;
+        6 optional string           target;
+        7 optional string           engine;
+        8 optional vector<int>      typeBitsList;   // E_TEXT_TRANSLATE_RSP_TYPE 位组合,用于识别结果里面包含哪些类型的数据,有文本翻译结果,有字典词条,有图解
+        9 optional vector<vector<AbstractType>>        extResultsList; // 扩展返回结果,可以是 AppExtDictEntries, AppExtPicDictCategories, 在相应的typeBits里面有标示
+    };
+
+    struct AppTextTranslateReqItem
+    {
+        0 optional string           source;
+        1 optional string           target;
+        2 optional string           sourceText;
+    };
+
+    struct AppTextTranslateRspItem
+    {
+        0 optional int              errCode;
+        1 optional string           sourceText;
+        2 optional string           targetText;
+        3 optional string           source;
+        4 optional string           target;
+        5 optional string           engine;
+    };
+
+    struct AppMultipleTextTranslateReq
+    {
+        0 optional string           sessionUuid;
+        1 optional vector<AppTextTranslateReqItem>     translateList;
+    };
+
+    struct AppMultipleTextTranslateRsp
+    {
+        0 optional string           sessionUuid;
+        1 optional int              errCode;
+        2 optional string           errMsg;
+        3 optional vector<AppTextTranslateRspItem>     resultList;
+    };
+
+    ///////////////////////////////////  TTS /////////////////////////////////////////
+    // TTS请求
+    struct AppTtsReq
+    {
+        0 optional string       sessionUuid;
+        1 optional string       text;
+        2 optional string       lang;
+        3 optional string       provider;   // 空为标准tts, 对于字典把相应的dictProvider填入,如opd, ocd
+        4 optional string       voiceName;  // male默认男, female默认女, guodegang, pony, cham...
+    };
+
+    // TTS结果
+    struct AppTtsRsp
+    {
+        0 optional string       sessionUuid;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+        3 optional vector<byte> data;
+        4 optional string       text;
+        5 optional string       lang;
+        6 optional string       provider;
+    };
+
+    ////////////////////////////////////// 语音识别 ////////////////////////////////////////
+    // 语音位置,可以用于组合
+    enum E_SPEECH_POSITION
+    {
+        E_POS_BEGIN             = 1,
+        E_POS_CONTINUE          = 2,
+        E_POS_END               = 4
+    };
+
+    // 语言识别状态
+    enum E_SPEECH_RECOGNIZE_STATUS
+    {
+        E_DONE                  = 0,
+        E_PROCESSING            = 1,
+        E_VAD                   = 2
+    };
+
+    // 语音识别请求
+    struct AppSpeechRecognizeReq
+    {
+        0 optional string       sessionUuid;
+        1 optional int          audioFormat;
+        2 optional vector<byte> data;
+        3 optional string       lang;
+        4 optional byte         posBits;    // E_SPEECH_POSITION
+        5 optional string       engine;     // ifly, google, nuance, xiaoniu_nmt, nmt
+        6 optional string       mode;       // vad : 同声传译; 默认空是单句识别
+        7 optional int          seq;        // 序列号
+        8 optional int          voiceActivity = 0; // 1 为客户端检测到断句, 0 为客户端认为是有效连续语音
+    };
+
+    // 语言识别结果
+    struct AppSpeechRecognizeRsp
+    {
+        0 optional string       sessionUuid;
+        1 optional int          errCode; //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg; //错误信息
+        3 optional int          recognizeStatus; // E_SPEECH_RECOGNIZE_STATUS
+        4 optional string       text;
+        5 optional string       lang;
+        6 optional string       engine;
+        7 optional int          seq;
+        8 optional int          vadSeq;     //用于vad mode下标记有效句子的seq
+        9 optional int          freshVad = 0; // 标识是否有更新的数据
+    };
+
+    /////////////////////////////////////// OCR ///////////////////////////////////////
+    // 图片数据
+    struct AppImageData
+    {
+        0 optional vector<byte>  data;
+        1 optional vector<byte>  mask;
+    };
+
+    // 图片识别场景
+    enum E_IMAGE_RECOGNIZE_SCENE
+    {
+        E_SCENE_WORD            = 0,    // 取词
+        E_SCENE_PAINT           = 1     // 涂抹
+    };
+
+    // 图片识别请求
+    struct AppImageRecognizeReq
+    {
+        0 optional string       sessionUuid;
+        1 optional vector<AppImageData> images;
+        2 optional int          scene; // E_IMAGE_RECOGNIZE_SCENE
+    };
+
+    // 图片识别结果
+    struct AppImageRecognizeRsp
+    {
+        0 optional string       sessionUuid;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+        3 optional vector<string>   texts;
+    };
+
+    struct AppImageScanReq
+    {
+        0 optional string       sessionUuid;
+        1 optional AppImageData image;
+    };
+
+    struct AppImageScanRecord
+    {
+        0 optional string       text;
+        1 optional AppRect      rect;
+        3 optional double       angle;  // 角度
+    };
+
+    struct AppImageScanParagraph
+    {
+        0 optional string               text;
+        1 optional AppRect              rect;
+        2 optional int                  rowCount = 1;   // 行数
+        3 optional int                  fontSize;   //
+        4 optional int                  lineSpace;
+        5 optional string               textAlignment;
+        6 optional int                  firstLineHeadIndent;
+        7 optional double               angle;  // 角度
+    };
+
+    struct AppImageScanRsp
+    {
+        0 optional string       sessionUuid;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+        3 optional vector<AppImageScanRecord>  records;
+        4 optional vector<AppImageScanParagraph> paragraphs;
+    };
+
+    struct AppImageScanTranslateReq
+    {
+        0 optional string       sessionUuid;
+        1 optional AppImageData image;
+        2 optional string       source; // zh, en, jp, auto
+        3 optional string       target; // zh, en, jp, auto
+        4 optional string       mode;   // 空为不分段, paragraph为分段
+        5 optional string       candidateLangs;     //zh|en, zh|jp, zh|kr, zh|en|jp|kr
+    };
+
+    struct AppImageScanTranslateRecord
+    {
+        0 optional string       sourceText;
+        1 optional string       targetText;
+        2 optional AppRect      rect;
+        3 optional int                  rowCount;   // 行数, >1 表示段落
+        4 optional int                  fontSize;   //
+        5 optional int                  lineSpace;
+        6 optional string               textAlignment;
+        7 optional int                  firstLineHeadIndent;
+        8 optional double               angle;  // 角度
+    };
+
+    struct AppImageScanTranslateRsp
+    {
+        0 optional string       sessionUuid;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+        3 optional vector<AppImageScanTranslateRecord>  records;
+        4 optional string       source;
+        5 optional string       target;
+        6 optional string       engine;
+    };
+
+    ////////////////////////////////////// S2T //////////////////////////////////////////
+
+    // 语音翻译请求: 语音识别,翻译,用于taf+ws,对于ws,返回的是多个单独的rsp,如speechRsp1, speechRsp2, translateRsp
+    struct AppSpeechTranslateReq
+    {
+        0 optional string                   sessionUuid;
+        1 optional AppSpeechRecognizeReq    speechReq;
+        2 optional AppTextTranslateReq      translateReq;
+        3 optional AppTtsReq                ttsReq;
+    };
+
+    // 语音翻译返回结果,用于taf
+    struct AppSpeechTranslateRsp
+    {
+        0 optional string                   sessionUuid;
+        1 optional AppSpeechRecognizeRsp    speechRsp;
+        2 optional AppTextTranslateRsp      translateRsp;
+        3 optional AppTtsRsp                ttsRsp;
+    };
+
+    ///////////////////////////////////////  I2T ////////////////////////////////////////
+    // 图片翻译请求: 图片识别,翻译,用于taf+ws,对于ws,返回的是多个单独的rsp,如imageRsp, translateRsp
+    struct AppImageTranslateReq
+    {
+        0 optional string                   sessionUuid;
+        1 optional AppImageRecognizeReq     imageReq;
+        2 optional AppBatchTextTranslateReq translateReq;
+    };
+
+    // 图片翻译返回结果,用于taf
+    struct AppImageTranslateRsp
+    {
+        0 optional string                   sessionUuid;
+        1 optional AppImageRecognizeRsp     imageRsp;
+        2 optional AppBatchTextTranslateRsp translateRsp;
+    };
+
+    //////////////////////////////////////// S2S ///////////////////////////////////////
+    // 语音到语音请求:语音识别,翻译,TTS,用于ws,返回的是多个单独的rsp,如speechRsp1, speechRsp2, speechRsp3, translateRsp, ttsRsp
+    struct AppSpeech2SpeechReq
+    {
+        0 optional string                   sessionUuid;
+        1 optional AppSpeechRecognizeReq    speechReq;
+        2 optional AppTextTranslateReq      translateReq;
+        3 optional AppTtsReq                ttsReq;
+    };
+
+    ////////////////////////////////// WebSocket ////////////////////////////////
+    // WebSocket请求包
+    struct WSPackageReq
+    {
+        0 optional AppUserDesc  appUserDesc;
+        1 optional AbstractType data;       // 可以是任意req类型
+        2 optional string       packageId;  // 请求方用于区分package
+    };
+
+    // WebSocket返回结果包
+    struct WSPackageRsp
+    {
+        0 optional AbstractType data;
+        1 optional string       packageId;  // 直接拷贝相应的WSPackageReq.packageId
+    };
+
+    ////////////////////////////////// 纠错 /////////////////////////////////////////
+    // 纠错
+    struct AppCorrectionReq
+    {
+        0 optional string       sessionUuid;
+        1 optional string       source;
+        2 optional string       target;
+        3 optional string       sourceText;
+        4 optional string       targetText;
+        5 optional string       sourceTextRevised;
+        6 optional string       targetTextRevised;
+        7 optional int          rateStar;
+    };
+
+    struct AppCorrectionRsp
+    {
+        0 optional int          ret; // 0 for success
+        1 optional string       sessionUuid;
+    };
+
+    ///////////////////////////////// 词典分类图解 ///////////////////////////////////
+    // 获取OPD分类图解图片数据
+    struct AppGetPicDictImageReq
+    {
+        0 optional string       imageId;
+        1 optional string       type;               // thumbnail, origin; 默认是origin, thumbnail是缩略图,origin是原图
+    };
+
+    struct AppGetPicDictImageRsp
+    {
+        0 optional string       imageId;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+        3 optional string       type;       // thumbnail, origin, 默认是origin
+        4 optional vector<byte> imageData;
+    };
+
+    // 获取分类图解章节数据
+    struct AppGetPicDictChapterReq
+    {
+        0 optional string               chapterId;
+    };
+
+    struct AppGetPicDictChapterRsp
+    {
+        0 optional string               chapterId;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+        3 optional AppPicDictChapter    chapter;
+    };
+
+    // 获取所有分类图解章节摘要数据
+    struct AppGetAllPicDictChapterAbstractReq
+    {
+        0 optional string               dictProvider;   // 填opd
+    };
+
+    struct AppGetAllPicDictChapterAbstractRsp
+    {
+        0 optional vector<AppPicDictChapterAbstract> allChapterAbstract;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+    };
+
+    struct AppDictTtsReq
+    {
+        0 optional string       sessionUuid;
+        1 optional string       text;       // 相应的文本,没在字典中找到则会走标准tts
+        3 optional string       provider;   // 字典把相应的dictProvider,如opd, ocd
+        4 optional string       voiceName;  // ocd_BrE ocd英国发音; ocd_AmE ocd美国发音; 只对ocd有用
+        5 optional string       param;      // itemId for opd
+    };
+
+    // TTS结果
+    struct AppDictTtsRsp
+    {
+        0 optional string       sessionUuid;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+        3 optional vector<byte> data;
+        4 optional string       text;
+        5 optional string       provider;
+        6 optional string       param;
+    };
+
+    struct AppGetPicDictCategoryReq
+    {
+        0 optional string       categoryId;
+    };
+
+    struct AppGetPicDictCategoryRsp
+    {
+        0 optional AppPicDictCategory   category;
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+    };
+
+    struct AppCorrectSpellReq
+    {
+        0 optional string       keyword;
+    };
+
+    struct AppCorrectSpellRsp
+    {
+        0 optional string       data;       // json
+        1 optional int          errCode;    //错误码 E_APP_ERR_CODE
+        2 optional string       errMsg;     //错误信息
+    };
+
+    // 音频上传请求,支持流式和WUP
+    struct AppAudioUploadReq
+    {
+        0 optional string       sessionUuid;
+        1 optional vector<byte> audio;          // 用户音频
+        2 optional int          audioFormat;
+        3 optional byte         posBits = 5;    // E_SPEECH_POSITION
+        4 optional string       audioSource;    // 对于运营活动是 operation/activity/id
+    };
+
+    struct AppAudioUploadRsp
+    {
+        0 require int           errCode;    // 错误码
+        1 optional string       errMsg;     // 错误信息
+        2 optional string       sessionUuid;
+        3 optional string       audioUrl;
+    };
+
+    // 语言评测请求,支持流式和WUP
+    struct AppSpeechEvaluateReq
+    {
+        0 optional string       text;   // 如果posBits不带end的话可以忽略text,但end的时候必须带text
+        1 optional vector<byte> audio;  // 用户音频
+        2 optional int          audioFormat;
+        3 optional string       lang = "en";        // 语言
+        4 optional string       prefer;
+        5 optional string       type = "sentence_follow";    // 场景 sentence_recite句子背诵, sentence_follow句子跟读, word_recite单词背诵, word_follow单词跟读
+        6 optional string       sessionUuid;
+        7 optional byte         posBits = 5;    // E_SPEECH_POSITION
+    };
+
+    struct EvaluatePhone
+    {
+        0 optional string phone;
+        1 optional int status;  // 0 正确, 1错读, 2漏读
+        2 optional int pos;     // -1表示该发音不在支持列表
+        3 optional int len;     // -1表示该发音不在支持列表
+    };
+
+    struct speechEvaluateWord
+    {
+        0 optional string text;
+        1 optional float score;
+        2 optional bool isBad = false;
+        3 optional vector<EvaluatePhone> phones;
+    };
+
+    struct speechEvaluateLines
+    {
+        0 optional string text;
+        1 optional float score;
+        2 optional vector<speechEvaluateWord> words;
+    };
+
+    // 语言评测状态
+    enum E_SPEECH_EVALUATE_STATUS
+    {
+        E_DONE                  = 0,
+        E_PROCESSING            = 1,
+    };
+
+    struct AppSpeechEvaluateRsp
+    {
+        0 require int           errCode; //错误码
+        1 optional string       errMsg; //错误信息
+        2 optional float        score;  //0 - 100
+        3 optional vector<speechEvaluateLines> lines;
+        4 optional int          stars;
+        5 optional string       evaluateKey;        // 跟读结果对应key
+        6 optional float        fluency;
+        7 optional float        integrity;
+        8 optional float        pronunciation;
+        9 optional string       sessionUuid;
+        10 optional int         evaStatus;  // E_SPEECH_EVALUATE_STATUS
+    };
+
+    // 语音上传+评测, 构建组合请求的时候,对于evalReq只需要填写text字段,返回的结构为uploadRsp和evalRsp
+    struct AppSpeechUploadEvaluateReq
+    {
+        0 optional string               sessionUuid;
+        1 optional AppAudioUploadReq    uploadReq;
+        2 optional AppSpeechEvaluateReq evalReq;
+    };
+
+    struct AppSpeechUploadEvaluateRsp
+    {
+        0 optional string               sessionUuid;
+        1 optional AppAudioUploadRsp    uploadRsp;
+        2 optional AppSpeechEvaluateRsp evalRsp;
+    };
+
+    struct AppGetWordExamplesReq
+    {
+        0 optional string text;
+    };
+
+    struct AppGetWordExamplesRsp
+    {
+        0 require int errCode; //错误码
+        1 optional string errMsg; //错误信息
+        2 optional string text;
+        3 optional vector<string> jsonExamples; //{sourceText:xxxx, targetText:XXXX, sourceWord:XXX, targetWord:xxxx}
+    };
+
+    /**
+        ##获取海报背景主题 getOperationThemeList##
+        cmd = {
+            method : "GET",
+            mod : "operation",
+            func : "theme"
+        }
+        params = {
+            offset : 0,
+            limit : 100
+        }
+
+
+        ##创建海报 createOperationPoster##
+        cmd = {
+            method : "POST",
+            mod : "operation",
+            func : "poster"
+        }
+        params = {
+            activityId : "1000",
+            image : "base64 of image binary",
+            sourceText : "天气不错",
+            targetText : "It is a nice day",
+            source : "zh",
+            target : "en"
+        }
+
+        ##获取文案列表 getPosterDocList##
+        cmd = {
+            method : "GET",
+            mod : "operation",
+            func : "poster_doc"
+        }
+        params = {
+            activityId : "1000"
+        }
+
+        ##创建跟读##
+        cmd = {
+            method : "POST",
+            mod : "operation",
+            func : "repeat",
+        }
+        params = {
+            audioUrl : "....",
+            evaluateKey : "....", // 这2个字段是会校验有效性的
+        }
+
+        ##获取跟读 ##
+        cmd = {
+            method : "GET",
+            mod : "operation",
+            func : "repeat",
+            id : "112"
+        }
+        params = {
+
+        }
+     **/
+    struct AppOperationExecuteReq
+    {
+        0 optional string cmd;      // Json
+        1 optional string params;   // Json
+    };
+
+    struct AppOperationExecuteRsp
+    {
+        0 require int errCode;      //错误码
+        1 optional string errMsg;   //错误信息
+        2 optional string data;     // Json
+    };
+
+    struct AppUserLoginReq
+    {
+        0 optional string type;     // wechat, qq
+        1 optional string code;     // for wechat
+        2 optional string A2;       // for qq
+        3 optional string uin;      // for qq
+        4 optional string avatar;   // for qq
+        5 optional string nickname; // for qq
+        6 optional string skey;     // PC Website
+        7 optional string openid;   // for qq open id
+        8 optional string accessToken; //for qq openid
+    };
+
+    struct AppUserLoginRsp
+    {
+        0 require int errCode;      //错误码 -21, //验证失败（无效的登录参数）, -22, //未登录(需要登录态)
+        1 optional string errMsg;   //错误信息
+        2 optional string tid;      // token id
+        3 optional string uid;      // fanyijun user id
+        4 optional string avatar;
+        5 optional string nickname;
+    };
+
+    /**
+    ##获取生词本##
+    cmd = {
+        method : "GET",
+        mod : "vocabulary",
+        func : "vocabulary",
+    }
+    params = {}
+
+
+    ##同步本地生词本, 添加生词##
+    cmd = {
+        method : "POST",
+        mod : "vocabulary",
+        func : "vocabulary",
+    }
+    params = {
+        words : '[
+            {
+                "sourceText " : "aaa",
+                "targetText" : "AB",
+                "type" : "word", // word / sentence
+                "source" : "zh",
+                "target" : "en",
+            },
+            {
+                ...
+            }
+        ]'
+    }
+
+    ##删除生词##
+    cmd = {
+        method : "DELETE",
+        mod : "vocabulary",
+        func : "vocabulary",
+    }
+    params = {
+        words : '[
+            {
+                "sourceText" : "aaa",
+                "targetText" : "AB",
+                "type" : "word", // word / sentence
+                "source" : "zh",
+                "target" : "en",
+            },
+            {
+                ...
+            }
+        ]'
+    }
+
+    注意:
+    中文单词的targetText是英文单词的数组: ['happy', 'nice']
+    英文单词的targetText是按这个结构体组织的json string:
+        {
+            phAmE,
+            phBrE,
+            abstract: [
+                {
+                    ps : 'vt.',
+                    explanations : ['日志', '美丽']
+                }
+            ],
+            transforms: {
+                pl          : '',    // 复数
+                is          : '',    // 第三人称单数
+                were        : '',    // 过去式
+                been        : '',    // 过去分词
+                being       : '',    // 进行时
+                er          : '',    // 比较级
+                est         : '',    // 最高级
+            }
+        }
+
+    **/
+    struct AppCloudExecuteReq
+    {
+        0 optional string cmd;      // Json
+        1 optional string params;   // Json
+    };
+
+    struct AppCloudExecuteRsp
+    {
+        0 require int errCode;      //错误码
+        1 optional string errMsg;   //错误信息
+        2 optional string data;     // Json
+    };
+
+    struct AppContentJudgeItem
+    {
+        0 optional string text;
+        1 optional string type = "text"; // text, image, audio, video
+        2 optional vector<byte> data;   // binary data for image, audio, video
+    };
+
+    struct AppContentJudgeReq
+    {
+        0 optional vector<AppContentJudgeItem> itemList;
+    };
+
+    struct AppContentJudgeRsp
+    {
+        0 require int errCode;      //错误码
+        1 optional string errMsg;   //错误信息
+        2 optional vector<string> dataList;     // Json
+    };
+
+    interface TranslatorApp
+    {
+        int test();
+
+        // 语言识别
+        int speechRecognize(AppUserDesc appUserDesc, AppSpeechRecognizeReq req, out AppSpeechRecognizeRsp rsp);
+
+        // 图片识别
+        int imageRecognize(AppUserDesc appUserDesc, AppImageRecognizeReq req, out AppImageRecognizeRsp rsp);
+
+        // 文字翻译
+        int textTranslate(AppUserDesc appUserDesc, AppTextTranslateReq req, out AppTextTranslateRsp rsp);
+
+        // 批量文本翻译
+        int batchTextTranslate(AppUserDesc appUserDesc, AppBatchTextTranslateReq req, out AppBatchTextTranslateRsp rsp);
+
+        // multiple languages text translate in batch mode
+        int multipleTextTranslate(AppUserDesc appUserDesc, AppMultipleTextTranslateReq req, out AppMultipleTextTranslateRsp rsp);
+
+        // 语音识别+翻译
+        int speechTranslate(AppUserDesc appUserDesc, AppSpeechTranslateReq req, out AppSpeechTranslateRsp rsp);
+
+        // 图片识别+翻译
+        int imageTranslate(AppUserDesc appUserDesc, AppImageTranslateReq req, out AppImageTranslateRsp rsp);
+
+        // 图片扫描
+        int imageScan(AppUserDesc appUserDesc, AppImageScanReq req, out AppImageScanRsp rsp);
+
+        // 图片扫描+翻译
+        int imageScanTranslate(AppUserDesc appUserDesc, AppImageScanTranslateReq req, out AppImageScanTranslateRsp rsp);
+
+        // Text to speech
+        int tts(AppUserDesc appUserDesc, AppTtsReq req, out AppTtsRsp rsp);
+
+        // 纠错
+        int reportCorrection(AppUserDesc appUserDesc, AppCorrectionReq req, out AppCorrectionRsp rsp);
+
+        // 获取图解图片数据
+        int getPicDictImage(AppUserDesc appUserDesc, AppGetPicDictImageReq req, out AppGetPicDictImageRsp rsp);
+
+        // 获取OPD分类图解章节数据
+        int getPicDictChapter(AppUserDesc appUserDesc, AppGetPicDictChapterReq req, out AppGetPicDictChapterRsp rsp);
+
+        // 获取所有OPD分类图解章节摘要
+        int getAllPicDictChapterAbstract(AppUserDesc appUserDesc, AppGetAllPicDictChapterAbstractReq req, out AppGetAllPicDictChapterAbstractRsp rsp);
+
+        // 字典发音
+        int dictTts(AppUserDesc appUserDesc, AppDictTtsReq req, out AppDictTtsRsp rsp);
+
+        // 获取图解词典Category信息
+        int getPicDictCategory(AppUserDesc appUserDesc, AppGetPicDictCategoryReq req, out AppGetPicDictCategoryRsp rsp);
+
+        // 纠错提示
+        int correctSpell(AppUserDesc appUserDesc, AppCorrectSpellReq req, out AppCorrectSpellRsp rsp);
+
+        // 语音上传
+        int audioUpload(AppUserDesc appUserDesc, AppAudioUploadReq req, out AppAudioUploadRsp rsp);
+
+        // 语音评测
+        int speechEvaluate(AppUserDesc appUserDesc, AppSpeechEvaluateReq req, out AppSpeechEvaluateRsp rsp);
+
+        // 语音上传+评测
+        int speechUploadEvaluate(AppUserDesc appUserDesc, AppSpeechUploadEvaluateReq req, out AppSpeechUploadEvaluateRsp rsp);
+
+        // 获取例句
+        int getWordExamples(AppUserDesc appUserDesc, AppGetWordExamplesReq req, out AppGetWordExamplesRsp rsp);
+
+        // 运营活动通用接口
+        int operationExecute(AppUserDesc appUserDesc, AppOperationExecuteReq req, out AppOperationExecuteRsp rsp);
+
+        // 云同步接口
+        int cloudExecute(AppUserDesc appUserDesc, AppCloudExecuteReq req, out AppCloudExecuteRsp rsp);
+
+        // 用户登陆
+        int userLogin(AppUserDesc appUserDesc, AppUserLoginReq req, out AppUserLoginRsp rsp);
+
+        // 敏感词过滤
+        int contentJudge(AppUserDesc appUserDesc, AppContentJudgeReq req, out AppContentJudgeRsp rsp);
+    };
+};
+

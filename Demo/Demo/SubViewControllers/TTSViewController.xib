@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TTSViewController">
+            <connections>
+                <outlet property="image1" destination="B4s-d7-Drl" id="JFL-ny-UFZ"/>
+                <outlet property="image2" destination="sGI-aa-yeX" id="224-Yf-QJD"/>
+                <outlet property="image3" destination="hvc-K1-Hnr" id="2q0-Jk-cze"/>
+                <outlet property="image4" destination="jt2-6G-tec" id="nqh-kD-aV0"/>
+                <outlet property="image5" destination="BbN-BO-PlT" id="1pc-88-tAf"/>
+                <outlet property="label1" destination="wPO-K8-slg" id="Mh9-rY-tKR"/>
+                <outlet property="label2" destination="bPf-uG-HnY" id="nK4-NS-aVo"/>
+                <outlet property="label3" destination="VGZ-7R-7LY" id="cXB-Sr-JxN"/>
+                <outlet property="label4" destination="UEv-Mh-A1k" id="Iye-tP-fU1"/>
+                <outlet property="label5" destination="Hia-Ql-hhr" id="IUv-Uf-l65"/>
+                <outlet property="langPickerView" destination="egq-nX-9J5" id="cCt-zf-o63"/>
+                <outlet property="textField" destination="bgJ-I8-dI5" id="XiA-US-Okg"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A Boolean value indicating whether another app is currently playing audio." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPO-K8-slg">
+                    <rect key="frame" x="20" y="180" width="216" height="74"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="216" id="0bH-rZ-deg"/>
+                        <constraint firstAttribute="height" constant="74" id="x4Z-gU-sFR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当另一个具有不可混合音频会话的应用程序正在播放音频时，该值为true ." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-uG-HnY">
+                    <rect key="frame" x="20" y="257.5" width="216" height="74"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="74" id="Rc7-Ne-kuH"/>
+                        <constraint firstAttribute="width" constant="216" id="vRU-Nr-TGQ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="应用程序应使用该属性作为提示，以使音频静音，该音频是应用程序功能的次要功能. 例如，使用ambient的游戏可以使用此属性来决定使其声轨静音，同时保持其声音效果不变." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VGZ-7R-7LY">
+                    <rect key="frame" x="20" y="335" width="216" height="74"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="216" id="Yaj-KL-W2F"/>
+                        <constraint firstAttribute="height" constant="74" id="vZh-EY-uro"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UEv-Mh-A1k">
+                    <rect key="frame" x="20" y="426" width="216" height="74"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="216" id="C1u-8e-ENf"/>
+                        <constraint firstAttribute="height" constant="74" id="T6C-Cl-AVX"/>
+                    </constraints>
+                    <string key="text">可以灵活的使用字符串动态取值和设值，但通过KVC操作对象的性能比getter和setter更差。
+访问和修改私有属性，最常见的就是修改UITextField中的placeHolderText。
+通过- (void)setValuesForKeysWithDictionary:字典转model，如股票字段。
+当对容器类使用KVC时，valueForKey:将会被传递给容器中的每一个对象，而不是容器本身进行操作，由此我们可以有效的提取容器中每个对象的指定属性值集合。
+使用函数操作容器中的对象，快速对各对象中的基础类型属性做运算，如@avg，@count ，@max ，@min @sum。
+
+作者：进击的蜗牛君
+链接：https://juejin.im/post/5dafaf36e51d4578176b53bc
+来源：掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hia-Ql-hhr">
+                    <rect key="frame" x="20" y="524" width="216" height="117"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="117" id="6zy-Hf-BcH"/>
+                        <constraint firstAttribute="width" constant="216" id="slI-iw-Zpm"/>
+                    </constraints>
+                    <string key="text">Chianda high school is located in Rarieda sub-county ,Siaya district .This is a county school with a population of over 1500 students and it is a six streamed institution .This is a middle class school of quality resources and qualified teachers .
+This school performs relatively well during inter school exams like continuous assessment tests and even during mock examinations .
+This school is known to have produced over 100 students direct to the university every year and with the current trend ,the school is promising to even produce more students .
+in terms of facilities ,the school has a number of facilities to ensure smooth learning environment and to enhance proper room for research methods and talent nurturing .
+This school so far has got the best library and computer lab in the county .
+Currently the school is ranked at the second position in the Rarieda sub-county and is a threat to many schools in the nation.
+This school has got qualified security personnel who are in charge of peace and order within the school.
+Despite the advantages ,this school is associated with few disadvantages which if attended then the better. One of the challenges is the huge population of students. This high population leads to time wastage during meal times, dorm inspection. One has to be in the long queue to serve and remember time for serving is too limited to finish your food ,at times , we are forced to pour food and rush for classes.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1N-OG-sWf">
+                    <rect key="frame" x="335" y="202" width="30" height="30"/>
+                    <state key="normal" title="Play"/>
+                    <connections>
+                        <action selector="onButton1Action:" destination="-1" eventType="touchUpInside" id="cfm-tP-jJz"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1XM-4d-CCc">
+                    <rect key="frame" x="335" y="279.5" width="30" height="30"/>
+                    <state key="normal" title="Play"/>
+                    <connections>
+                        <action selector="onButton2Action:" destination="-1" eventType="touchUpInside" id="VJ7-ug-2WU"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E0X-df-mx6">
+                    <rect key="frame" x="335" y="357" width="30" height="30"/>
+                    <state key="normal" title="Play"/>
+                    <connections>
+                        <action selector="onButton3Action:" destination="-1" eventType="touchUpInside" id="Qh2-8G-yUV"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BuO-PO-cst">
+                    <rect key="frame" x="335" y="448" width="30" height="30"/>
+                    <state key="normal" title="Play"/>
+                    <connections>
+                        <action selector="onButton4Action:" destination="-1" eventType="touchUpInside" id="6LE-wD-tPV"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="voq-jQ-mKp">
+                    <rect key="frame" x="335" y="567.5" width="30" height="30"/>
+                    <state key="normal" title="Play"/>
+                    <connections>
+                        <action selector="onButton5Action:" destination="-1" eventType="touchUpInside" id="yML-YZ-P0r"/>
+                    </connections>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B4s-d7-Drl">
+                    <rect key="frame" x="265" y="210.5" width="13" height="13"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="13" id="3kJ-sn-vx6"/>
+                        <constraint firstAttribute="height" constant="13" id="JwL-1v-0y9"/>
+                    </constraints>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sGI-aa-yeX">
+                    <rect key="frame" x="265" y="288" width="13" height="13"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="13" id="oeO-gV-rHc"/>
+                        <constraint firstAttribute="height" constant="13" id="yLm-zu-zsT"/>
+                    </constraints>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hvc-K1-Hnr">
+                    <rect key="frame" x="265" y="351" width="13" height="13"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="13" id="Af6-V1-XVf"/>
+                        <constraint firstAttribute="height" constant="13" id="NqW-si-Otw"/>
+                    </constraints>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jt2-6G-tec">
+                    <rect key="frame" x="265" y="456.5" width="13" height="13"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="13" id="ts7-OY-0fT"/>
+                        <constraint firstAttribute="width" constant="13" id="wrj-zQ-h9K"/>
+                    </constraints>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BbN-BO-PlT">
+                    <rect key="frame" x="265" y="576" width="13" height="13"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="13" id="7uL-Mi-n7C"/>
+                        <constraint firstAttribute="height" constant="13" id="ywO-o9-0sl"/>
+                    </constraints>
+                </imageView>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egq-nX-9J5">
+                    <rect key="frame" x="20" y="80" width="175" height="92"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="175" id="RLx-YW-fU8"/>
+                        <constraint firstAttribute="height" constant="92" id="a4b-Fa-PQr"/>
+                    </constraints>
+                </pickerView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6L-ee-29z">
+                    <rect key="frame" x="335" y="109" width="30" height="30"/>
+                    <state key="normal" title="Play"/>
+                    <connections>
+                        <action selector="onButton6Action:" destination="-1" eventType="touchUpInside" id="CAu-DT-7KH"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bgJ-I8-dI5">
+                    <rect key="frame" x="223" y="107" width="97" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="97" id="45Y-tq-XGq"/>
+                        <constraint firstAttribute="height" constant="34" id="HJC-7M-jQe"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="wPO-K8-slg" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="136" id="0nr-LP-oXy"/>
+                <constraint firstItem="bgJ-I8-dI5" firstAttribute="leading" secondItem="egq-nX-9J5" secondAttribute="trailing" constant="28" id="5sx-g8-05b"/>
+                <constraint firstItem="voq-jQ-mKp" firstAttribute="centerY" secondItem="Hia-Ql-hhr" secondAttribute="centerY" id="7fA-5k-sNW"/>
+                <constraint firstItem="UEv-Mh-A1k" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="20" id="8M3-Dt-4pB"/>
+                <constraint firstItem="Hia-Ql-hhr" firstAttribute="top" secondItem="UEv-Mh-A1k" secondAttribute="bottom" constant="24" id="CLY-5n-kvH"/>
+                <constraint firstItem="BuO-PO-cst" firstAttribute="centerY" secondItem="UEv-Mh-A1k" secondAttribute="centerY" id="DAE-95-MLs"/>
+                <constraint firstItem="bPf-uG-HnY" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="20" id="EMs-UL-1Hv"/>
+                <constraint firstItem="bgJ-I8-dI5" firstAttribute="centerY" secondItem="egq-nX-9J5" secondAttribute="centerY" constant="-2" id="EZK-JO-37L"/>
+                <constraint firstItem="Y1N-OG-sWf" firstAttribute="leading" secondItem="wPO-K8-slg" secondAttribute="trailing" constant="99" id="GrB-i3-8S6"/>
+                <constraint firstItem="O6L-ee-29z" firstAttribute="leading" secondItem="bgJ-I8-dI5" secondAttribute="trailing" constant="15" id="JeW-bd-ARk"/>
+                <constraint firstItem="jt2-6G-tec" firstAttribute="centerY" secondItem="UEv-Mh-A1k" secondAttribute="centerY" id="KYD-AS-niW"/>
+                <constraint firstItem="sGI-aa-yeX" firstAttribute="leading" secondItem="bPf-uG-HnY" secondAttribute="trailing" constant="29" id="NTd-PE-w37"/>
+                <constraint firstItem="voq-jQ-mKp" firstAttribute="leading" secondItem="Hia-Ql-hhr" secondAttribute="trailing" constant="99" id="OI0-Zb-e1T"/>
+                <constraint firstItem="wPO-K8-slg" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="20" id="Ryj-8O-va7"/>
+                <constraint firstItem="BuO-PO-cst" firstAttribute="leading" secondItem="UEv-Mh-A1k" secondAttribute="trailing" constant="99" id="SMV-c5-5OH"/>
+                <constraint firstItem="egq-nX-9J5" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="36" id="aeK-vg-sX9"/>
+                <constraint firstItem="jt2-6G-tec" firstAttribute="leading" secondItem="UEv-Mh-A1k" secondAttribute="trailing" constant="29" id="bvQ-03-2uz"/>
+                <constraint firstItem="1XM-4d-CCc" firstAttribute="centerY" secondItem="bPf-uG-HnY" secondAttribute="centerY" id="d7O-gW-gHv"/>
+                <constraint firstItem="VGZ-7R-7LY" firstAttribute="firstBaseline" secondItem="bPf-uG-HnY" secondAttribute="baseline" constant="24" symbolType="layoutAnchor" id="dJP-mC-XAg"/>
+                <constraint firstItem="hvc-K1-Hnr" firstAttribute="firstBaseline" secondItem="VGZ-7R-7LY" secondAttribute="firstBaseline" id="iL9-Oj-53M"/>
+                <constraint firstItem="VGZ-7R-7LY" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="20" id="j80-7T-8rf"/>
+                <constraint firstItem="BbN-BO-PlT" firstAttribute="leading" secondItem="Hia-Ql-hhr" secondAttribute="trailing" constant="29" id="jJf-Pi-tas"/>
+                <constraint firstItem="bPf-uG-HnY" firstAttribute="firstBaseline" secondItem="wPO-K8-slg" secondAttribute="baseline" constant="24" symbolType="layoutAnchor" id="kpT-ie-4eb"/>
+                <constraint firstItem="Y1N-OG-sWf" firstAttribute="centerY" secondItem="wPO-K8-slg" secondAttribute="centerY" id="n6e-w0-p1a"/>
+                <constraint firstItem="Hia-Ql-hhr" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="20" id="nfq-RG-tF7"/>
+                <constraint firstItem="sGI-aa-yeX" firstAttribute="centerY" secondItem="bPf-uG-HnY" secondAttribute="centerY" id="pi1-t9-16N"/>
+                <constraint firstItem="UEv-Mh-A1k" firstAttribute="top" secondItem="VGZ-7R-7LY" secondAttribute="bottom" constant="17" id="sJG-4l-keM"/>
+                <constraint firstItem="B4s-d7-Drl" firstAttribute="centerY" secondItem="wPO-K8-slg" secondAttribute="centerY" id="uVb-jL-V3q"/>
+                <constraint firstItem="1XM-4d-CCc" firstAttribute="leading" secondItem="bPf-uG-HnY" secondAttribute="trailing" constant="99" id="uVh-ka-m5n"/>
+                <constraint firstItem="E0X-df-mx6" firstAttribute="centerY" secondItem="VGZ-7R-7LY" secondAttribute="centerY" id="w1v-4F-3qB"/>
+                <constraint firstItem="BbN-BO-PlT" firstAttribute="centerY" secondItem="Hia-Ql-hhr" secondAttribute="centerY" id="wDR-ph-nre"/>
+                <constraint firstItem="E0X-df-mx6" firstAttribute="leading" secondItem="VGZ-7R-7LY" secondAttribute="trailing" constant="99" id="wgk-9F-4mf"/>
+                <constraint firstItem="egq-nX-9J5" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="20" id="wnN-Q9-L3o"/>
+                <constraint firstItem="O6L-ee-29z" firstAttribute="centerY" secondItem="bgJ-I8-dI5" secondAttribute="centerY" id="xns-aL-Xt1"/>
+                <constraint firstItem="B4s-d7-Drl" firstAttribute="leading" secondItem="wPO-K8-slg" secondAttribute="trailing" constant="29" id="zSG-1C-RAK"/>
+                <constraint firstItem="hvc-K1-Hnr" firstAttribute="leading" secondItem="VGZ-7R-7LY" secondAttribute="trailing" constant="29" id="ze1-PV-gB1"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="55.072463768115945" y="155.35714285714286"/>
+        </view>
+    </objects>
+</document>
