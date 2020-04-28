@@ -10,7 +10,7 @@
 通过 CocoaPods 安装，在 podfile 里添加：
 
 ```
-    pod 'QTTranslator', '~> 2.0'
+	pod 'QTTranslatorAR', '~> 2.0'
 ```
     
 
@@ -106,7 +106,7 @@ rep.sourceText = @"测试文本";
 // 设置语言种类参数方式一
 // 设置源语言，目标语言，不用设置candidateLangPair
 rep.sourceLang = langAbbrFromType(QTLangTypeZh);
-rep.targetLang = langAbbrFromType(QTLangTypeEn)";
+rep.targetLang = langAbbrFromType(QTLangTypeEn);
 
 // 设置语言种类参数方式二
 // 翻译支持自动识别语言种类 
@@ -213,6 +213,43 @@ BOOL didPlay = [QTTtsManager.shared readTtsReq:req endBlock:^{
 }];
 if (didPlay) {
     [weakSelf.playButton startAnimating];
+}
+```
+### AR翻译
+
+**支持语种** 
+
+AR翻译支持中文到 （英、日、韩、西班牙、法、德、越、马来、意大利、葡萄牙）的互译
+
+
+```
+// Property
+@property (nonatomic, strong) QTARTranslateManager *manager;
+
+- (void)setup {
+	// 初始化AR翻译
+	self.manager = [[QTARTranslateManager alloc] initWithController:self];
+	NSString *sourceLang = langAbbrFromType(QTLangTypeZh);
+	NSString *targetLang = langAbbrFromType(QTLangTypeEn);
+	[self.manager configureWithSource:sourceLang target:targetLang];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // 开始AR翻译
+    [self.manager resume];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    // 暂停AR翻译
+    [self.manager pause];
+}
+
+- (void)dealloc {
+	// 结束AR翻译并释放资源
+    [self.manager releaseEngine];
+    self.manager = nil;
 }
 ```
 
