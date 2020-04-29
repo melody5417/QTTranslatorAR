@@ -20,4 +20,11 @@ typedef NS_ENUM(NSInteger, QTTranslateEnv){
     QTTranslateEnvDebug,    // 开发模式
 };
 
+typedef NS_ENUM(NSInteger, QTTranslateARStatus){
+    QTTranslateARStatusMove,    // 设备移动
+    QTTranslateARStatusStable,  // 设备稳定
+    QTTranslateARStatusRequest, // 发起AR翻译
+    QTTranslateARStatusTrack,   // AR翻译成功，跟踪Marker
+};
+
 #endif /* QTTranslateDefine_h */

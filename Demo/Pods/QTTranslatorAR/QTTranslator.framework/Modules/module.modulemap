@@ -1,6 +1,0 @@
-framework module QTTranslator {
-  umbrella header "QTTranslator.h"
-
-  export *
-  module * { export * }
-}

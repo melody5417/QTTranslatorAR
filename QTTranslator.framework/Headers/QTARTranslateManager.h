@@ -11,13 +11,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+
+@protocol QTARTranslateManagerDelegate <NSObject>
+
+/**
+ * AR翻译开启的回调
+ * AR引擎的回调 一定会收到
+ */
+- (void)didStart;
+
+/**
+ * AR翻译状态切换的回调
+ * @param status AR翻译状态 类型为 QTTranslateARStatus 见文件 QTTranslateDefine.h
+ * NOTE：为UI线程，在这个回调做大量操作可能阻塞camera图片渲染
+ */
+- (void)statusDidChange:(QTTranslateARStatus)status;
+
+/**
+ * AR翻译关闭的回调
+ * AR引擎的回调 有时会收不到
+ */
+- (void)didStop;
+
+@end
+
 @interface QTARTranslateManager : NSObject
 
 /**
  * 初始化AR翻译引擎
  * @param controller 传入依赖的viewController用来展示
  */
-- (instancetype)initWithController:(UIViewController * _Nonnull )controller;
+- (instancetype)initWithController:(UIViewController * _Nonnull )controller
+                          delegate:(id<QTARTranslateManagerDelegate> _Nullable)delegate;
 
 /**
  * 配置AR翻译引擎

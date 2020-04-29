@@ -228,7 +228,7 @@ AR翻译支持中文到 （英、日、韩、西班牙、法、德、越、马�
 
 - (void)setup {
 	// 初始化AR翻译
-	self.manager = [[QTARTranslateManager alloc] initWithController:self];
+	self.manager = [[QTARTranslateManager alloc] initWithController:self delegate:self];
 	NSString *sourceLang = langAbbrFromType(QTLangTypeZh);
 	NSString *targetLang = langAbbrFromType(QTLangTypeEn);
 	[self.manager configureWithSource:sourceLang target:targetLang];
@@ -247,13 +247,35 @@ AR翻译支持中文到 （英、日、韩、西班牙、法、德、越、马�
 }
 
 - (void)dealloc {
-	// 结束AR翻译并释放资源
+	// 结束AR翻译并释放资源 一定不要忘记！
     [self.manager releaseEngine];
     self.manager = nil;
 }
+
+// 实现 QTARTranslateManagerDelegate 协议，获取状态回调
+
+- (void)didStart {
+	// AR翻译开始
+}
+
+// QTTranslateARStatusMove,    // 设备移动
+// QTTranslateARStatusStable,  // 设备稳定
+// QTTranslateARStatusRequest, // 发起AR翻译
+// QTTranslateARStatusTrack,   // AR翻译成功，跟踪Marker
+- (void)statusDidChange:(QTTranslateARStatus)status {
+	// AR翻译状态
+}
+
+- (void)didStop {
+	// AR翻译结束
+}
+
 ```
 
 ## History
+
+### 2.0.2
+* AR翻译增加状态回调
 
 ### 2.X
 * 转为cocoapods分发

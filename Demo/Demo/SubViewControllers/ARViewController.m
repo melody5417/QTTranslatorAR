@@ -9,7 +9,7 @@
 #import "ARViewController.h"
 #import <QTTranslator/QTTranslator.h>
 
-@interface ARViewController ()
+@interface ARViewController () <QTARTranslateManagerDelegate>
 
 @property (nonatomic, strong) QTARTranslateManager *manager;
 
@@ -27,7 +27,7 @@
     NSString *srcLang = [[NSUserDefaults standardUserDefaults] objectForKey:@"sourceLang"];
     NSString *tgtLang = [[NSUserDefaults standardUserDefaults] objectForKey:@"targetLang"];
 
-    self.manager = [[QTARTranslateManager alloc] initWithController:self];
+    self.manager = [[QTARTranslateManager alloc] initWithController:self delegate:self];
     [self.manager configureWithSource:srcLang target:tgtLang];
 }
 
@@ -53,5 +53,17 @@
     self.manager = nil;
 }
 
+#pragma mark - QTARTranslateManagerDelegate
 
+- (void)didStart {
+    NSLog(@"%s", __FUNCTION__);
+}
+
+- (void)statusDidChange:(QTTranslateARStatus)status {
+    NSLog(@"%s %@", __FUNCTION__, @(status));
+}
+
+- (void)didStop {
+    NSLog(@"%s", __FUNCTION__);
+}
 @end
