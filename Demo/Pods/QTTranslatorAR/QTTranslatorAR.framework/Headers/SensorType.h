@@ -1,0 +1,51 @@
+//
+//  SensorType.h
+//  tarengine
+//
+//  Created by carmzhu on 2018/4/18.
+//  Copyright © 2018年 carmzhu. All rights reserved.
+//
+
+#ifndef SensorType_h
+#define SensorType_h
+/**
+ * The difinition is copied from Android sdk
+ * Although on ios platform, we have no keyword such as SensorType, we can still use this.
+ */
+typedef NS_ENUM(NSInteger, ASENSOR_TYPE) {
+    TYPE_ACCELEROMETER = 1,
+    TYPE_MAGNETIC_FIELD,
+    TYPE_ORIENTATION,
+    TYPE_GYROSCOPE,
+    TYPE_LIGHT,
+    TYPE_PRESSURE,
+    TYPE_TEMPERATURE,
+    TYPE_PROXIMITY,
+    TYPE_GRAVITY,
+    TYPE_LINEAR_ACCELERATION,
+    TYPE_ROTATION_VECTOR,
+    TYPE_RELATIVE_HUMIDITY,
+    TYPE_AMBIENT_TEMPERATURE,
+    TYPE_MAGNETIC_FIELD_UNCALIBRATED,
+    TYPE_GAME_ROTATION_VECTOR,
+    TYPE_GYROSCOPE_UNCALIBRATED,
+    TYPE_SIGNIFICANT_MOTION,
+    TYPE_STEP_DETECTOR,
+    TYPE_STEP_COUNTER,
+    TYPE_GEOMAGNETIC_ROTATION_VECTOR,
+    TYPE_HEART_RATE,
+    TYPE_TILT_DETECTOR,
+    TYPE_WAKE_GESTURE,
+    TYPE_GLANCE_GESTURE,
+    TYPE_PICK_UP_GESTURE,
+    TYPE_DEVICE_ORIENTATION = 27,
+    TYPE_POSE_6DOF,
+    TYPE_STATIONARY_DETECT,
+    TYPE_MOTION_DETECT,
+    TYPE_HEART_BEAT,
+    TYPE_LOW_LATENCY_OFFBODY_DETECT = 34,
+    TYPE_ACCELEROMETER_UNCALIBRATED
+};
+
+
+#endif /* SensorType_h */
