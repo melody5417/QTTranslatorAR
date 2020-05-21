@@ -6,6 +6,6 @@ target 'Demo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'QTTranslatorAR', '~> 2.0.2'
+  pod 'QTTranslatorAR', '~> 2.0.3'
 
 end

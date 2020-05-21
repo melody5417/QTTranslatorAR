@@ -1,16 +1,16 @@
 PODS:
-  - QTTranslatorAR (2.0.2)
+  - QTTranslatorAR (2.0.3)
 
 DEPENDENCIES:
-  - QTTranslatorAR (~> 2.0.2)
+  - QTTranslatorAR (~> 2.0.3)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - QTTranslatorAR
 
 SPEC CHECKSUMS:
-  QTTranslatorAR: 86fa69a82756711de2373b63399f8baa176fac1d
+  QTTranslatorAR: a3cdc79c5692d2f0a617b61f64441ea708e1c087
 
-PODFILE CHECKSUM: 93a4f654a628c7a48f32178e92aa496659ea97a2
+PODFILE CHECKSUM: 21261fe2c9c032d8857d71cbc4b02dcd4490b26d
 
 COCOAPODS: 1.9.1
