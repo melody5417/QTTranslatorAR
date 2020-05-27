@@ -54,6 +54,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configureWithSource:(NSString *)source target:(NSString *)target;
 
 /**
+ * 获取当前视频帧
+ */
+- (UIImage *)getCurrentFrame;
+
+/**
  * 开始AR翻译引擎
  */
 - (void)resume;

@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, QTTranslateARStatus){
     QTTranslateARStatusStable,  // 设备稳定
     QTTranslateARStatusRequest, // 发起AR翻译
     QTTranslateARStatusTrack,   // AR翻译成功，跟踪Marker
+    QTTranslateARStatusError,   // 设备长期稳定且未识别到有效文本,不再进行AR识别
 };
 
 #endif /* QTTranslateDefine_h */

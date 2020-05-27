@@ -26,6 +26,7 @@
 -(instancetype)initWithEngine:(id)engine;
 -(void)addMarker:(MarkerResource*)markerResource;
 -(void)deleteMarker:(int)mid;
+- (void)clearMarkers;
 -(void)setMarkerStatus:(int)mid status:(BOOL)status;
 -(void)updateVisibility:(NSMutableArray*)recognitions;
 /*-(void)setVideoUrl:(NSString*)url;
