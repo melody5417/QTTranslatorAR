@@ -39,6 +39,20 @@ NS_ASSUME_NONNULL_BEGIN
 @interface QTARTranslateManager : NSObject
 
 /**
+ * 手机稳定检测采用率
+ * 默认1/20, 每秒20次。
+ * 请开始AR翻译前设置，一旦开启设置无效
+ */
+@property (nonatomic, assign) NSTimeInterval stableDetectionInterval;
+
+/**
+* 手机稳定检测 连续稳定多少次判断为稳定
+* 默认5次。
+* 请开始AR翻译前设置，一旦开启设置无效
+*/
+@property (nonatomic, assign) NSUInteger stableLimit;
+
+/**
  * 初始化AR翻译引擎
  * @param controller 传入依赖的viewController用来展示
  */
