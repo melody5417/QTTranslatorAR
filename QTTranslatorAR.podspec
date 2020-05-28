@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "QTTranslatorAR"
-  spec.version      = "2.0.4"
+  spec.version      = "2.0.5"
   spec.summary      = "QTTranslatorAR framework."
   spec.description  = <<-DESC
 QTTranslator basic framework with AR.
