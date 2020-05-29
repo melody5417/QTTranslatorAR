@@ -40,17 +40,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * 手机稳定检测采用率
- * 默认1/20, 每秒20次。
+ * 默认 1/10, 每秒 10 次。
  * 请开始AR翻译前设置，一旦开启设置无效
  */
 @property (nonatomic, assign) NSTimeInterval stableDetectionInterval;
 
 /**
-* 手机稳定检测 连续稳定多少次判断为稳定
-* 默认5次。
-* 请开始AR翻译前设置，一旦开启设置无效
+ * 手机稳定检测 连续稳定多少次判断为稳定
+ * 默认 5 次。
+ * 请开始AR翻译前设置，一旦开启设置无效
 */
 @property (nonatomic, assign) NSUInteger stableLimit;
+
+/**
+ * 手机稳定检测阈值 超过阈值即判定摇晃
+ * 默认 1.05。
+ * 请开始AR翻译前设置，一旦开启设置无效
+*/
+@property (nonatomic, assign) CGFloat stableAccelerameterLimit;
 
 /**
  * 初始化AR翻译引擎
